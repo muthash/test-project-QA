@@ -4,18 +4,13 @@
   "scripts": {
     "lint": "eslint .",
     "lint-staged": "lint-staged",
-    "test-ke": "playwright test --grep @KE",
-    "test-tz": "playwright test --grep @TZ",
-    "test-ug": "playwright test --grep @UG",
-    "test-ng": "playwright test --grep @NG",
-    "test-za": "playwright test --grep @ZA",
-    "test:mobile-app": "playwright test --project=mobile-app",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
     "prepare": "cd .. && husky e2e/.husky",
-    "generate": "npm run generate-schema && npx prisma generate",
-    "generate-schema": "ts-node prisma/generate-schema.ts",
-    "db:copy": "ts-node src/helpers/generationDB.ts"
+    "generate": "npx prisma generate",
+    "push": "npx prisma db push",
+    "studio": "npx prisma studio",
+    "init:db": "npx ts-node db/initDatabase.ts"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write",
@@ -36,6 +31,8 @@
     "js-sha256": "^0.11.0",
     "pdf2json": "^3.1.4",
     "redis": "^4.7.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

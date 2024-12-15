@@ -39,6 +39,18 @@ npx playwright install
     npm run prepare
 ```
 
+```bash
+    npm run init:db
+```
+
+```bash
+    npm run generate
+```
+
+```bash
+    npm run push
+```
+
 ### If you encounter formatting errors when writing code, this commands will help:
 
 ```bash
