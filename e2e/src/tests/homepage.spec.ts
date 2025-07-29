@@ -1,10 +1,5 @@
 import { expect, homeTest as test } from "../fixtures/homePage.fixture";
 
-test.use({
-  viewport: { width: 1920, height: 1080 },
-  headless: false,
-});
-
 test.describe("Homepage Tests", () => {
   test("should navigate to Elements page", async ({ homePage, page }) => {
     await homePage.clickElements();

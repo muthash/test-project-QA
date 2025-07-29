@@ -1,4 +1,4 @@
-import { expect, devices, loginTest as test } from "../fixtures/loginPage.fixture";
+import { devices, expect, loginTest as test } from "../fixtures/loginPage.fixture";
 
 test.use({ ...devices["Galaxy S8"] });
 
@@ -25,7 +25,7 @@ test.describe("Login Page Layout Tests", () => {
   });
 });
 
-test.describe("Login functionality", () => {
+test.describe("Login functionality", { tag: ["@login, @regression"] }, () => {
   test("should not login with empty fields", async ({ loginPage }) => {
     await loginPage.usernameInput.fill("");
     await loginPage.passwordInput.fill("");
@@ -42,7 +42,7 @@ test.describe("Login functionality", () => {
     await loginPage.submitLogin();
     await expect(loginPage.usernameInputError).toBeVisible();
     await expect(loginPage.usernameInputError).toHaveClass(/is-invalid/);
-    await expect(loginPage.passwordInputError).not.toBeVisible();
+    await expect(loginPage.passwordInputError).toBeHidden();
   });
 
   test("should not login with empty password", async ({ loginPage }) => {
@@ -51,7 +51,7 @@ test.describe("Login functionality", () => {
     await loginPage.submitLogin();
     await expect(loginPage.passwordInputError).toBeVisible();
     await expect(loginPage.passwordInputError).toHaveClass(/is-invalid/);
-    await expect(loginPage.usernameInputError).not.toBeVisible();
+    await expect(loginPage.usernameInputError).toBeHidden();
   });
 
   test("should not login with invalid credentials", async ({ loginPage }) => {
@@ -62,24 +62,25 @@ test.describe("Login functionality", () => {
     await expect(loginPage.invalidLoginError).toHaveText("Invalid username or password!");
   });
 
-  //   // test("should create a user and login successfully", async ({ page }) => {
-  //   //   // Go to registration page
-  //   //   await page.goto("https://demoqa.com/register");
-  //   //   const randomUser = `user${Math.floor(Math.random() * 100000)}`;
-  //   //   const password = "Password123!";
-  //   //   await page.fill("#firstname", "Test");
-  //   //   await page.fill("#lastname", "User");
-  //   //   await page.fill("#userName", randomUser);
-  //   //   await page.fill("#password", password);
-  //   //   // CAPTCHA cannot be automated, so this step is manual or skipped in CI
-  //   //   // await page.click('#register');
-  //   //   // await expect(page.locator('.text-success')).toHaveText('User Register Successfully.');
-  //   //   // For demonstration, try to login with the new user (if registration is possible)
-  //   //   await page.goto(baseURL);
-  //   //   await page.fill("#userName", randomUser);
-  //   //   await page.fill("#password", password);
-  //   //   await page.click("#login");
-  //   //   await expect(page).toHaveURL(/profile/);
-  //   //   await expect(page.locator("#userName-value")).toHaveText(randomUser);
-  //   // });
+  test(
+    "should create a user and login successfully",
+    { tag: "@sanity" },
+    async ({ createAccount: testAccount, deleteAccount, generateToken: generateToken, loginPage, page }) => {
+      // Create a new user account using API
+      const { password, userID, username } = testAccount;
+
+      // Fill login form with the new user credentials
+      await loginPage.fillLoginForm(username, password);
+      await loginPage.submitLogin();
+
+      // Validate successful login
+      await expect(page).toHaveURL("/profile");
+      await expect(page.getByText(username)).toBeVisible();
+      await expect(page.locator("#userName-value")).toHaveText(username);
+
+      // cleanup manually
+      const { token } = await generateToken(username, password);
+      await deleteAccount(userID, token);
+    },
+  );
 });
