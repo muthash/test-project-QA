@@ -23,10 +23,6 @@ export default class LoginPage {
     this.invalidLoginError = this.page.getByText("Invalid username or password!");
   }
 
-  public async assertLoginPage() {
-    await expect(this.page).toHaveURL("/login");
-  }
-
   public async clickSignupButton() {
     await this.signupButton.dispatchEvent("click");
   }
@@ -38,6 +34,7 @@ export default class LoginPage {
 
   public async goto() {
     await this.page.goto("/login");
+    await expect(this.page).toHaveURL("/login");
   }
 
   public async submitLogin() {

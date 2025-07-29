@@ -25,7 +25,7 @@ test.describe("Login Page Layout Tests", () => {
   });
 });
 
-test.describe("Login functionality", { tag: ["@login, @regression"] }, () => {
+test.describe("Login Functionality Tests", { tag: ["@login, @regression"] }, () => {
   test("should not login with empty fields", async ({ loginPage }) => {
     await loginPage.usernameInput.fill("");
     await loginPage.passwordInput.fill("");

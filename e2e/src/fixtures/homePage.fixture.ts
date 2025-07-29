@@ -11,7 +11,6 @@ export const homeTest = base.extend<HomeFixtures>({
     // Set up the fixture.
     const homePage = new HomePage(page);
     await homePage.goto();
-    await homePage.assertCurrentPage();
 
     // Use the fixture value in the test.
     await use(homePage);

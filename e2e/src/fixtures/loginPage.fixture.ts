@@ -38,6 +38,7 @@ export const loginTest = base.extend<LoginFixtures>({
     if (response.status() !== 201) {
       throw new Error(`Account creation failed: ${await response.text()}`);
     }
+
     const { userID } = await response.json();
     if (!userID) {
       throw new Error("User ID not found in account creation response");
@@ -74,7 +75,6 @@ export const loginTest = base.extend<LoginFixtures>({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
-    await loginPage.assertLoginPage();
     await use(loginPage);
   },
 });

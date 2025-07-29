@@ -21,10 +21,6 @@ export default class SignupPage {
     this.loginButton = page.getByRole("button", { name: "Back to Login" });
   }
 
-  public async assertRegisterPage() {
-    await expect(this.page).toHaveURL("/register");
-  }
-
   public async checkCaptchaCheckbox() {
     const frame = this.page.frameLocator('iframe[title="reCAPTCHA"]');
     const checkbox = frame.locator(".recaptcha-checkbox-border");
@@ -44,6 +40,7 @@ export default class SignupPage {
 
   public async goto() {
     await this.page.goto("/register");
+    await expect(this.page).toHaveURL("/register");
   }
 
   public async submitRegister() {

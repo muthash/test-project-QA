@@ -1,6 +1,6 @@
 import { expect, homeTest as test } from "../fixtures/homePage.fixture";
 
-test.describe("Homepage Tests", () => {
+test.describe("Homepage Navigation Tests", () => {
   test("should navigate to Elements page", async ({ homePage, page }) => {
     await homePage.clickElements();
     await expect(page).toHaveURL("/elements");

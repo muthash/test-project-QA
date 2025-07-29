@@ -10,7 +10,6 @@ export const signupTest = base.extend<SignupFixtures>({
   signupPage: async ({ page }, use) => {
     const signupPage = new SignupPage(page);
     await signupPage.goto();
-    await signupPage.assertRegisterPage();
     await use(signupPage);
     await signupPage.page.close();
   },

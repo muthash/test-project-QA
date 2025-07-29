@@ -19,10 +19,6 @@ export default class HomePage {
     this.bookStore = page.getByRole("heading", { name: "Book Store Application" });
   }
 
-  public async assertCurrentPage() {
-    await expect(this.page).toHaveURL("/");
-  }
-
   public async clickAlerts() {
     await this.alerts.click();
   }
@@ -49,5 +45,6 @@ export default class HomePage {
 
   public async goto() {
     await this.page.goto("/");
+    await expect(this.page).toHaveURL("/");
   }
 }
