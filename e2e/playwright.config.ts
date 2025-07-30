@@ -1,6 +1,10 @@
 import dotenvx from "@dotenvx/dotenvx";
 import { defineConfig, devices } from "@playwright/test";
 
+/**
+ * Read environment variables from file.
+ * https://dotenvx.com/
+ */
 dotenvx.config({
   path: `${__dirname}/.env`,
 });
@@ -21,15 +25,19 @@ BigInt.prototype.toJSON = function (): string {
 export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
+  /* Run tests in files in parallel */
   fullyParallel: true,
   projects: [
+    /* Configure projects for major browsers */
     {
-      name: "tests",
-      testDir: "./src/tests",
-      use: {
-        baseURL: process.env.DEMOQA,
-        ...devices["Desktop Chrome"],
-      },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+    },
+
+    /* Test against mobile viewports. */
+    {
+      name: "Galaxy S8",
+      use: { ...devices["Galaxy S8"] },
     },
   ],
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -40,6 +48,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     actionTimeout: 5000,
+    baseURL: process.env.DEMOQA,
     screenshot: {
       fullPage: true,
       mode: "only-on-failure",

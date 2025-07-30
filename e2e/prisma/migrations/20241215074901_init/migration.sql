@@ -32,16 +32,15 @@ CREATE TABLE "AppUserRole" (
     CONSTRAINT "AppUserRole_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "Role" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE "UserPhone" (
-    "id" int NOT NULL AUTO_INCREMENT,
-    "user_id" bigint NOT NULL,
-    "phone_country_id" int NOT NULL,
-    "phone" varchar(20) NOT NULL,
-    "order_index" int NOT NULL,
+-- CREATE TABLE "UserPhone" (
+--     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+--     "appuser_id" BIGINT NOT NULL,
+--     "phone_country_id" INTEGER NOT NULL,
+--     "phone" VARCHAR(20) NOT NULL,
+--     "order_index" INTEGER NOT NULL,
 
-    PRIMARY KEY ("id"),
-    CONSTRAINT "AppUserRole_appuser_id_fkey" FOREIGN KEY ("appuser_id") REFERENCES "AppUser" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-);
+--     CONSTRAINT "AppUserRole_appuser_id_fkey" FOREIGN KEY ("appuser_id") REFERENCES "AppUser" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+-- );
 
 
 -- CreateIndex

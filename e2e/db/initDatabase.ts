@@ -11,7 +11,7 @@ type SQLiteDatabase = Database;
 export async function initDatabase(): Promise<SQLiteDatabase | undefined> {
   const db: SQLiteDatabase = await open({
     driver: sqlite3.Database,
-    filename: "test.db",
+    filename: "prisma/pwtest.db",
   });
 
   console.log("Initializing database...");
@@ -54,14 +54,13 @@ export async function initDatabase(): Promise<SQLiteDatabase | undefined> {
     `);
 
     await db.exec(`
-      CREATE TABLE IF NOT EXISTS UserPhone (
-        id int NOT NULL AUTO_INCREMENT,
-        user_id bigint NOT NULL,
-        phone_country_id int NOT NULL,
-        phone varchar(20) NOT NULL,
-        order_index int NOT NULL,
-        PRIMARY KEY (id),
-        FOREIGN KEY (appuser_id) REFERENCES appuser (id),
+      CREATE TABLE IF NOT EXISTS user_phone (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        appuser_id INTEGER NOT NULL,
+        phone_country_id INTEGER NOT NULL,
+        phone TEXT NOT NULL,
+        order_index INTEGER NOT NULL,
+        FOREIGN KEY (appuser_id) REFERENCES appuser (id)
       );
     `);
 

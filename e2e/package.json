@@ -4,13 +4,14 @@
   "scripts": {
     "lint": "eslint .",
     "lint-staged": "lint-staged",
-    "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
     "prepare": "cd .. && husky e2e/.husky",
-    "generate": "npx prisma generate",
-    "push": "npx prisma db push",
-    "studio": "npx prisma studio",
-    "init:db": "npx ts-node db/initDatabase.ts"
+    "prisma:generate": "npx prisma generate",
+    "prisma:push": "npx prisma db push",
+    "prisma:studio": "npx prisma studio",
+    "init:db": "npx ts-node db/initDatabase.ts",
+    "seed:db": "npx ts-node db/seedDatabase.ts",
+    "unseed:db": "npx ts-node db/unseedDatabase.ts"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write",
