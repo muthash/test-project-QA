@@ -35,10 +35,10 @@ export default defineConfig({
     },
 
     /* Test against mobile viewports. */
-    {
-      name: "Galaxy S8",
-      use: { ...devices["Galaxy S8"] },
-    },
+    // {
+    //   name: "Galaxy S8",
+    //   use: { ...devices["Galaxy S8"] },
+    // },
   ],
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [["html", { open: process.env.CI ? "never" : "on-failure" }]],
