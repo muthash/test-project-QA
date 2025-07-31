@@ -57,3 +57,12 @@ npx playwright install
     npx prettier --ignore-unknown --write .
     npx eslint . --fix
 ```
+
+### Inject .env file to be able to run tests using docker:
+
+```bash
+    docker run --rm \
+    -v $(pwd)/.env:/e2e/.env \
+    -w /e2e \
+    test-project-qa
+```
