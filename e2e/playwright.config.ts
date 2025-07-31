@@ -1,13 +1,11 @@
-import dotenvx from "@dotenvx/dotenvx";
 import { defineConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
 
 /**
  * Read environment variables from file.
- * https://dotenvx.com/
+ * https://github.com/motdotla/dotenv
  */
-dotenvx.config({
-  path: `${__dirname}/.env`,
-});
+dotenv.config({ path: `${__dirname}/.env`, quiet: true });
 
 declare global {
   interface BigInt {
@@ -45,6 +43,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   testDir: "./src/tests",
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     actionTimeout: 5000,
@@ -53,8 +52,8 @@ export default defineConfig({
       fullPage: true,
       mode: "only-on-failure",
     },
-    trace: "retain-on-failure",
-    video: "retain-on-failure",
+    trace: "on-first-retry",
+    video: "on-first-retry",
   },
 
   /* Opt out of parallel tests on CI. */

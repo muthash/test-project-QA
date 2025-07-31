@@ -8,8 +8,10 @@
 
 node_modules/
 
+.env
 .env.private
 .env.secret
+
 
 /test-results/
 /playwright-report/
