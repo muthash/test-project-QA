@@ -30,10 +30,13 @@ jobs:
           docker run --rm \
           -v "$PWD/playwright-report:/e2e/playwright-report" \
           -v "$PWD/test-results:/e2e/test-results" \
-          -e DEMOQA=$DEMOQA \
-          -e PASSWORD=$PASSWORD \
-          -e DATABASE_URL=$DATABASE_URL \
+          $(env | grep -E '^(DEMOQA|PASSWORD|DATABASE_URL)=' | sed 's/^/-e /') \
           test-project-qa
+        env:
+          CI: true
+          DEMOQA: ${{ secrets.DEMOQA }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Debug artifact directories
         run: |

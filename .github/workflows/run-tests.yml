@@ -37,6 +37,7 @@ jobs:
       - name: Run tests
         run: npx playwright test
         env:
+          CI: true
           DEMOQA: ${{ secrets.DEMOQA }}
           PASSWORD: ${{ secrets.PASSWORD }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
