@@ -3,7 +3,6 @@ import prisma from "../prisma";
 
 async function seed() {
   const roles = ["Admin", "Editor", "Viewer", "Support"];
-
   console.log("Seeding roles...");
   const roleRecords = [];
   for (const name of roles) {

@@ -1,0 +1,61 @@
+name: Run Playwright tests in Docker
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  e2e-tests-docker:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./e2e
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker build -t test-project-qa .
+
+      - name: Run tests inside Docker container
+        run: |
+          docker run --rm \
+          -v "$PWD/playwright-report:/e2e/playwright-report" \
+          -v "$PWD/test-results:/e2e/test-results" \
+          -e DEMOQA=$DEMOQA \
+          -e PASSWORD=$PASSWORD \
+          -e DATABASE_URL=$DATABASE_URL \
+          test-project-qa
+
+      - name: Debug artifact directories
+        run: |
+          echo "::group::Listing playwright-report"
+          ls -la playwright-report || echo "No report found"
+          echo "::endgroup::"
+          echo "::group::Listing test-results"
+          ls -la test-results || echo "No test results found"
+          echo "::endgroup::"
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: e2e/playwright-report/
+          retention-days: 3
+
+      - name: Upload traces/videos (test-results)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: e2e/test-results/
+          retention-days: 3
