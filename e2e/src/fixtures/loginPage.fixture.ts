@@ -3,8 +3,14 @@ import { test as base } from "@playwright/test";
 import { deleteUser, generateToken, registerUser } from "../api/userApi";
 import LoginPage from "../pages/LoginPage";
 
-type TestAccount = {
+type TestAccountDetails = {
   password: string;
+  userID: string;
+  username: string;
+};
+
+type createAccountResponse = {
+  books: string[];
   userID: string;
   username: string;
 };
@@ -17,8 +23,8 @@ type GenerateTokenResponse = {
 };
 
 type LoginFixtures = {
-  createAccount: TestAccount;
-  deleteAccount: (userID: string, token: string) => Promise<any>;
+  createAccount: TestAccountDetails;
+  deleteAccount: (userID: string, token: string) => Promise<void>;
   generateToken: (username: string, password: string) => Promise<GenerateTokenResponse>;
   loginPage: LoginPage;
 };
@@ -39,12 +45,12 @@ export const loginTest = base.extend<LoginFixtures>({
       throw new Error(`Account creation failed: ${await response.text()}`);
     }
 
-    const { userID } = await response.json();
+    const { userID } = (await response.json()) as createAccountResponse;
     if (!userID) {
       throw new Error("User ID not found in account creation response");
     }
 
-    const testAccount: TestAccount = {
+    const testAccount: TestAccountDetails = {
       password,
       userID,
       username,
@@ -58,7 +64,6 @@ export const loginTest = base.extend<LoginFixtures>({
       if (response.status() !== 204) {
         console.error(`Account deletion failed: ${await response.text()}`);
       }
-      return response;
     });
   },
 
@@ -68,7 +73,7 @@ export const loginTest = base.extend<LoginFixtures>({
       if (response.status() !== 200) {
         console.error(`Token generation failed: ${await response.text()}`);
       }
-      return response.json();
+      return (await response.json()) as GenerateTokenResponse;
     });
   },
 

@@ -14,8 +14,10 @@ async function unseed() {
 }
 
 unseed()
-  .then(async () => await prisma.$disconnect())
-  .catch(async (error) => {
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (error: unknown) => {
     console.error("Unseed error:", error);
     await prisma.$disconnect();
     process.exit(1);

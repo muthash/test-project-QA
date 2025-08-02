@@ -1,12 +1,12 @@
 import { faker } from "@faker-js/faker";
 
 export type WebTableUser = {
+  age: string;
+  department: string;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
-  age: string;
   salary: string;
-  department: string;
 };
 
 export function generateUser(overrides: Partial<WebTableUser> = {}): WebTableUser {
@@ -14,95 +14,95 @@ export function generateUser(overrides: Partial<WebTableUser> = {}): WebTableUse
   const lastName = faker.person.lastName();
 
   return {
+    age: faker.number.int({ max: 60, min: 21 }).toString(),
+    department: faker.commerce.department(),
+    email: faker.internet.exampleEmail({ firstName, lastName }).toLowerCase(),
     firstName,
     lastName,
-    email: faker.internet.exampleEmail({ firstName, lastName }).toLowerCase(),
-    age: faker.number.int({ min: 21, max: 60 }).toString(),
-    salary: faker.number.int({ min: 30000, max: 120000 }).toString(),
-    department: faker.commerce.department(),
+    salary: faker.number.int({ max: 120000, min: 30000 }).toString(),
     ...overrides,
   };
 }
 
 export const validUsers: WebTableUser[] = [
   {
+    age: "28",
+    department: "Engineering",
+    email: "alice.anderson@example.com",
     firstName: "Alice",
     lastName: "Anderson",
-    email: "alice.anderson@example.com",
-    age: "28",
     salary: "65000",
-    department: "Engineering",
   },
   {
+    age: "35",
+    department: "Marketing",
+    email: "bob.baker@example.com",
     firstName: "Bob",
     lastName: "Baker",
-    email: "bob.baker@example.com",
-    age: "35",
     salary: "72000",
-    department: "Marketing",
   },
   {
+    age: "41",
+    department: "Finance",
+    email: "cathy.crawford@example.com",
     firstName: "Cathy",
     lastName: "Crawford",
-    email: "cathy.crawford@example.com",
-    age: "41",
     salary: "82000",
-    department: "Finance",
   },
   {
+    age: "30",
+    department: "Product",
+    email: "david.doyle@example.com",
     firstName: "David",
     lastName: "Doyle",
-    email: "david.doyle@example.com",
-    age: "30",
     salary: "75000",
-    department: "Product",
   },
   {
+    age: "26",
+    department: "Support",
+    email: "eva.edwards@example.com",
     firstName: "Eva",
     lastName: "Edwards",
-    email: "eva.edwards@example.com",
-    age: "26",
     salary: "58000",
-    department: "Support",
   },
   {
+    age: "38",
+    department: "IT",
+    email: "frank.ferguson@example.com",
     firstName: "Frank",
     lastName: "Ferguson",
-    email: "frank.ferguson@example.com",
-    age: "38",
     salary: "91000",
-    department: "IT",
   },
   {
+    age: "29",
+    department: "Design",
+    email: "grace.gibbs@example.com",
     firstName: "Grace",
     lastName: "Gibbs",
-    email: "grace.gibbs@example.com",
-    age: "29",
     salary: "62000",
-    department: "Design",
   },
   {
+    age: "45",
+    department: "Management",
+    email: "henry.hughes@example.com",
     firstName: "Henry",
     lastName: "Hughes",
-    email: "henry.hughes@example.com",
-    age: "45",
     salary: "99000",
-    department: "Management",
   },
   {
+    age: "31",
+    department: "Operations",
+    email: "isla.irwin@example.com",
     firstName: "Isla",
     lastName: "Irwin",
-    email: "isla.irwin@example.com",
-    age: "31",
     salary: "77000",
-    department: "Operations",
   },
   {
+    age: "34",
+    department: "Logistics",
+    email: "jack.jennings@example.com",
     firstName: "Jack",
     lastName: "Jennings",
-    email: "jack.jennings@example.com",
-    age: "34",
     salary: "80000",
-    department: "Logistics",
   },
 ];

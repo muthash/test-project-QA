@@ -1,13 +1,14 @@
 import { expect, Locator, Page } from "@playwright/test";
+
 import { WebTableModal } from "./WebTableModal";
 
 export class WebTablePage {
-  readonly page: Page;
   readonly addButton: Locator;
-  readonly rows: Locator;
   readonly headers: Locator;
-  readonly searchBox: Locator;
   readonly modal: WebTableModal;
+  readonly page: Page;
+  readonly rows: Locator;
+  readonly searchBox: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -18,26 +19,16 @@ export class WebTablePage {
     this.modal = new WebTableModal(page);
   }
 
-  public async goto() {
-    await this.page.goto("/webtables");
-    await expect(this.page).toHaveURL("/webtables");
+  public async clearSearch() {
+    await this.searchBox.fill("");
   }
 
   public async clickAddButton() {
     await this.addButton.click();
   }
 
-  public async openAddForm() {
-    await this.addButton.click();
-    await this.modal.waitForVisible();
-  }
-
-  public async clearSearch() {
-    await this.searchBox.fill("");
-  }
-
-  public async search(value: string) {
-    await this.searchBox.fill(value);
+  public async deleteRowByIndex(index: number) {
+    await this.rows.nth(index).locator('[title="Delete"]').click();
   }
 
   public async editRowByIndex(index: number) {
@@ -45,39 +36,15 @@ export class WebTablePage {
     await this.modal.waitForVisible();
   }
 
-  public async deleteRowByIndex(index: number) {
-    await this.rows.nth(index).locator('[title="Delete"]').click();
-  }
-
   public async getCellValue(value: string) {
     return (await this.page.getByRole("gridcell", { name: value }).first().textContent()) ?? "";
-  }
-
-  public async getRowCount(): Promise<number> {
-    return this.rows.count();
-  }
-
-  public async getTotalRowsWithData(): Promise<number> {
-    const totalRows = await this.rows.all();
-    let totalRowsWithData = 0;
-
-    for (const row of totalRows) {
-      const firstCell = row.locator(".rt-td").first();
-      const text = (await firstCell.textContent())?.trim();
-
-      if (text) {
-        totalRowsWithData++;
-      }
-    }
-
-    return totalRowsWithData;
   }
 
   /**
    * Returns only rows that have data (i.e. first cell is not empty),
    * and maps them to their original DOM index.
    */
-  public async getDataRowsOnly(): Promise<{ total: number; data: Record<number, string[]> }> {
+  public async getDataRowsOnly(): Promise<{ data: Record<number, string[]>; total: number }> {
     const totalRows = await this.getRowCount();
     const data: Record<number, string[]> = {};
 
@@ -100,8 +67,42 @@ export class WebTablePage {
     }
 
     return {
-      total: Object.keys(data).length,
       data,
+      total: Object.keys(data).length,
     };
+  }
+
+  public async getRowCount(): Promise<number> {
+    return this.rows.count();
+  }
+
+  public async getTotalRowsWithData(): Promise<number> {
+    const totalRows = await this.rows.all();
+    let totalRowsWithData = 0;
+
+    for (const row of totalRows) {
+      const firstCell = row.locator(".rt-td").first();
+      const text = (await firstCell.textContent())?.trim();
+
+      if (text) {
+        totalRowsWithData++;
+      }
+    }
+
+    return totalRowsWithData;
+  }
+
+  public async goto() {
+    await this.page.goto("/webtables");
+    await expect(this.page).toHaveURL("/webtables");
+  }
+
+  public async openAddForm() {
+    await this.addButton.click();
+    await this.modal.waitForVisible();
+  }
+
+  public async search(value: string) {
+    await this.searchBox.fill(value);
   }
 }

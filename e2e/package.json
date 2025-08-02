@@ -4,9 +4,9 @@
   "scripts": {
     "lint": "eslint .",
     "lint-staged": "lint-staged",
+    "prepare": "cd .. && husky e2e/.husky",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
-    "prepare": "cd .. && husky e2e/.husky",
     "prisma:generate": "npx prisma generate",
     "prisma:push": "npx prisma db push",
     "prisma:studio": "npx prisma studio",

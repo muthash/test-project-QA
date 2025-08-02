@@ -11,7 +11,7 @@ test.describe("Web Table Functionality Tests", () => {
     await tablePage.modal.submitForm();
 
     const result = await tablePage.getDataRowsOnly();
-    const { total, data } = result;
+    const { data, total } = result;
     expect(total).toBe(totalRowsWithData + 1);
 
     const found = Object.values(data).find((row) => row.includes(testUser.firstName) && row.includes(testUser.email));
@@ -60,7 +60,7 @@ test.describe("Web Table Functionality Tests", () => {
 
     const totalRowsWithData = await tablePage.getTotalRowsWithData();
     const result = await tablePage.getDataRowsOnly();
-    const { total, data } = result;
+    const { data, total } = result;
     expect(total).toEqual(totalRowsWithData);
 
     const found = Object.values(data).find((row) => row.includes(testUser.firstName) && row.includes(testUser.email));

@@ -1,4 +1,5 @@
 import { test as base } from "@playwright/test";
+
 import { WebTablePage } from "../pages/WebTablesPage";
 
 type WebTableFixtures = {

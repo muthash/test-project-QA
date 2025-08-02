@@ -1,17 +1,17 @@
 import { Locator, Page } from "@playwright/test";
 
 export class WebTableModal {
-  readonly page: Page;
-  readonly modal: Locator;
-  readonly modalTitle: Locator;
+  readonly age: Locator;
+  readonly closeButton: Locator;
+  readonly department: Locator;
+  readonly email: Locator;
   readonly firstName: Locator;
   readonly lastName: Locator;
-  readonly email: Locator;
-  readonly age: Locator;
+  readonly modal: Locator;
+  readonly modalTitle: Locator;
+  readonly page: Page;
   readonly salary: Locator;
-  readonly department: Locator;
   readonly submitButton: Locator;
-  readonly closeButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -27,22 +27,17 @@ export class WebTableModal {
     this.closeButton = page.locator(".close");
   }
 
-  public async fillForm(data: { firstName: string; lastName: string; email: string; age: string; salary: string; department: string }) {
-    await this.firstName.fill(data.firstName);
-    await this.lastName.fill(data.lastName);
-    await this.email.fill(data.email);
-    await this.age.fill(data.age);
-    await this.salary.fill(data.salary);
-    await this.department.fill(data.department);
+  public async close() {
+    await this.closeButton.click();
   }
 
   public async editForm(data: {
+    age?: string;
+    department?: string;
+    email?: string;
     firstName?: string;
     lastName?: string;
-    email?: string;
-    age?: string;
     salary?: string;
-    department?: string;
   }) {
     const fields: [keyof typeof data, Locator][] = [
       ["firstName", this.firstName],
@@ -62,12 +57,17 @@ export class WebTableModal {
     }
   }
 
-  public async submitForm() {
-    await this.submitButton.click();
+  public async fillForm(data: { age: string; department: string; email: string; firstName: string; lastName: string; salary: string }) {
+    await this.firstName.fill(data.firstName);
+    await this.lastName.fill(data.lastName);
+    await this.email.fill(data.email);
+    await this.age.fill(data.age);
+    await this.salary.fill(data.salary);
+    await this.department.fill(data.department);
   }
 
-  public async close() {
-    await this.closeButton.click();
+  public async submitForm() {
+    await this.submitButton.click();
   }
 
   async waitForVisible() {
